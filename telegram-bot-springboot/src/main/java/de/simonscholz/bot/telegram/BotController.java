@@ -29,7 +29,18 @@ public class BotController {
 		handler.handleUpdate(update);
 	}
 
-	@RequestMapping(value = "/updates", method = RequestMethod.GET)
+	@RequestMapping(value = "/handleUpdates", method = RequestMethod.GET)
+	public void handleUpdates() {
+		Maybe<TelegramResponse<Update>> updatesMaybe = botClient.getUpdates();
+		updatesMaybe.subscribe(res -> {
+			List<Update> updates = res.getResult();
+			updates.stream().forEach(this::webhook);
+		}, err -> {
+			err.printStackTrace();
+		});
+	}
+	
+	@RequestMapping(value = "/printUpdates", method = RequestMethod.GET)
 	public void getUpdates() {
 		Maybe<TelegramResponse<Update>> updatesMaybe = botClient.getUpdates();
 		updatesMaybe.subscribe(res -> {

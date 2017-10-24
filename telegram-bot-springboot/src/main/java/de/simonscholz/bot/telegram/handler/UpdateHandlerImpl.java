@@ -14,6 +14,7 @@ import de.simonscholz.bot.telegram.translate.Translation;
 import de.simonscholz.bot.telegram.translate.TranslationApi;
 import de.simonscholz.bot.telegram.weather.DmiApi;
 import de.simonscholz.bot.telegram.weather.DmiCity;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 @Component
@@ -54,23 +55,36 @@ public class UpdateHandlerImpl implements UpdateHandler {
 			} else if (text.startsWith("/de")) {
 				Single<Translation> translation = translationApi.getTranslation(queryString, "de", "en");
 				translation.subscribe(t -> {
-					telegramBot.sendMessage(chatId, t.getTranslationText());
+					Maybe<Message> sendMessage = telegramBot.sendMessage(chatId, t.getTranslationText());
+					sendMessage.subscribe(m -> {
+						LOG.debug(m.getText());
+					});
 				});
 			} else if (text.startsWith("/en")) {
 				Single<Translation> translation = translationApi.getTranslation(queryString, "en", "de");
 				translation.subscribe(t -> {
-					telegramBot.sendMessage(chatId, t.getTranslationText());
+					Maybe<Message> sendMessage = telegramBot.sendMessage(chatId, t.getTranslationText());
+					sendMessage.subscribe(m -> {
+						LOG.debug(m.getText());
+					});
 				});
 			}
 
+		} else {
+			Maybe<Message> sendMessage = telegramBot.sendMessage(chatId, "This is not a proper command. \n Please use /now or /week + city name or for translations /en or /de");
+			sendMessage.subscribe(m -> {
+				LOG.debug(m.getText());
+			});
 		}
-
 	}
 
 	private void sendDmiPhoto(int chatId, Single<List<DmiCity>> dmiCities, String mode) {
 		dmiCities.subscribe(cities -> cities.stream().findFirst().ifPresent(dmiCity -> {
 			String weatherImageUrl = dmiApi.getWeatherImageUrl(String.valueOf(dmiCity.getId()), mode);
-			telegramBot.sendPhoto(chatId, weatherImageUrl);
+			Maybe<Message> sendPhoto = telegramBot.sendPhoto(chatId, weatherImageUrl);
+			sendPhoto.subscribe(m -> {
+				LOG.debug(m.getText());
+			});
 		}));
 	}
 
