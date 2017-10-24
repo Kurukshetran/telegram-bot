@@ -1,0 +1,5 @@
+rootProject.name = 'telegram-bot'
+
+include 'telegram-bot-springboot'
+include 'telegram-bot-api'
+

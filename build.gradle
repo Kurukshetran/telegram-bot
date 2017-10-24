@@ -1,0 +1,22 @@
+allprojects {
+	group = 'de.simonscholz.bot.telegram'
+	version = '0.1.0'
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+
+	repositories {
+		jcenter()
+		maven {
+			url 'https://oss.sonatype.org/content/repositories/snapshots/'
+		}
+	}
+
+	sourceCompatibility = 1.8
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '4.2.1'
+}
