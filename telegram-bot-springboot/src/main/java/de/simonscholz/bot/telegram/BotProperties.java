@@ -9,6 +9,7 @@ public class BotProperties {
 
 	private String apiKey = "apikey";
 	private String apiUrl = "apiurl";
+	private String webHookUrl = "webhookurl";
 
 	public String getApiKey() {
 		return apiKey;
@@ -24,5 +25,13 @@ public class BotProperties {
 
 	public void setApiUrl(String apiUrl) {
 		this.apiUrl = apiUrl;
+	}
+
+	public String getWebHookUrl() {
+		return webHookUrl;
+	}
+
+	public void setWebHookUrl(String webHookUrl) {
+		this.webHookUrl = webHookUrl;
 	}
 }
