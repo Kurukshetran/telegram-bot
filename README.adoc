@@ -83,7 +83,6 @@ TIP: See https://core.telegram.org/bots/api#setwebhook for further information a
 
 == Technologies
 
-* pengrad java telegram bot api
 * Spring Boot
 * Lombok
 * RxJava 2.x
@@ -98,3 +97,9 @@ Please make use of this bot, share your knowledge and adapt it for your needs.
 == Contributing
 
 Feedback is highly appreciated. You may open issues, send pull requests or simply contact me.
+
+== Sources
+
+https://core.telegram.org/bots/api#available-types
+
+
