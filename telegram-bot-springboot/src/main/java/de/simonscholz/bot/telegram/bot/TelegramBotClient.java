@@ -15,10 +15,6 @@ public interface TelegramBotClient {
 	@FormUrlEncoded
 	Maybe<Message> sendMessage(@Field("chat_id") int chatId, @Field("text") String text);
 
-	@POST("setWebhook")
-	@FormUrlEncoded
-	Maybe<Message> setWebhook(@Field("url") String webHookUrl);
-
 	@POST("sendPhoto")
 	@FormUrlEncoded
 	Maybe<Message> sendPhoto(@Field("chat_id") int chatId, @Field("photo") String photoUrl);

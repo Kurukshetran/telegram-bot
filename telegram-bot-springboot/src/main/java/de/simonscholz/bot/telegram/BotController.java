@@ -24,17 +24,9 @@ public class BotController {
 	@Autowired
 	private TelegramBotClient botClient;
 
-	@Autowired
-	private BotProperties botProperties;
-
 	@RequestMapping(value = "/webhook", method = RequestMethod.POST)
 	public void webhook(@RequestBody Update update) {
 		handler.handleUpdate(update);
-	}
-
-	@RequestMapping(value = "/setWebhook", method = RequestMethod.POST)
-	public void setWebhook() {
-		botClient.setWebhook(botProperties.getWebHookUrl());
 	}
 
 	@RequestMapping(value = "/handleUpdates", method = RequestMethod.GET)
