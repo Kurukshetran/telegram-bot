@@ -25,12 +25,14 @@ To create a new bot the `/newbot` command can be used.
 
 === Configure the Application
 
-To run this Spring Boot application with your own bot you usually have to adjust the application.properties file. (https://github.com/SimonScholz/telegram-bot/blob/master/telegram-bot/src/main/resources/application.properties)
+To run this Spring Boot application with your own bot you usually have to adjust the application.properties file. (https://github.com/SimonScholz/telegram-bot/blob/master/telegram-bot-springboot/src/main/resources/application.properties)
 
 [source, properties]
 ----
-bot.api-key=97307424:AAEDj2IXFDEEYfQ6SY_Ma0W_CHu1mUmQ3h8
+bot.api-url=https://api.telegram.org/bot
+bot.api-key=***** your api key *****
 server.port=8080
+management.context-path=/manage
 ----
 
 The _bot.api-key_ property has to be changed to your own bot token and you might want to change the _server.port_ property as well, e.g., to port 80.
@@ -100,6 +102,6 @@ Feedback is highly appreciated. You may open issues, send pull requests or simpl
 
 == Sources
 
-https://core.telegram.org/bots/api#available-types
+https://core.telegram.org/bots/api
 
 
