@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.simonscholz.bot.telegram.api.TelegramResponse;
@@ -30,14 +31,15 @@ public class BotController {
 	}
 
 	@RequestMapping(value = "/poll", method = RequestMethod.GET)
-	public void handleUpdates() {
+	public String poll(@RequestParam(name="count", required=false, defaultValue="1") int count) {
 		Maybe<TelegramResponse<Update>> updatesMaybe = botClient.getUpdates();
 		updatesMaybe.subscribe(res -> {
 			List<Update> updates = res.getResult();
-			updates.stream().forEach(this::webhook);
+			updates.stream().limit(count).forEach(this::webhook);
 		}, err -> {
 			err.printStackTrace();
 		});
+		return "Polling updates";
 	}
 	
 	@RequestMapping(value = "/printUpdates", method = RequestMethod.GET)
