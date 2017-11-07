@@ -29,7 +29,7 @@ public class BotController {
 		handler.handleUpdate(update);
 	}
 
-	@RequestMapping(value = "/handleUpdates", method = RequestMethod.GET)
+	@RequestMapping(value = "/poll", method = RequestMethod.GET)
 	public void handleUpdates() {
 		Maybe<TelegramResponse<Update>> updatesMaybe = botClient.getUpdates();
 		updatesMaybe.subscribe(res -> {
