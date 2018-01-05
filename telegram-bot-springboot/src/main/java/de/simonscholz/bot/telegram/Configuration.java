@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 
 import de.simonscholz.bot.telegram.bot.TelegramBotClient;
 import de.simonscholz.bot.telegram.location.OpenStreetMapApi;
-import de.simonscholz.bot.telegram.translate.TranslationApi;
 import de.simonscholz.bot.telegram.weather.DmiApi;
 import retrofit2.Retrofit;
 import retrofit2.Retrofit.Builder;
@@ -23,11 +22,6 @@ public class Configuration {
 	@Bean
 	public DmiApi dmiApi(Builder builder) {
 		return builder.baseUrl(DmiApi.BASE_URL).build().create(DmiApi.class);
-	}
-
-	@Bean
-	public TranslationApi translationApi(Builder builder) {
-		return builder.baseUrl(TranslationApi.BASE_URL).build().create(TranslationApi.class);
 	}
 
 	@Bean

@@ -17,8 +17,6 @@ import de.simonscholz.bot.telegram.entities.DmiLocation;
 import de.simonscholz.bot.telegram.location.OSMLocation;
 import de.simonscholz.bot.telegram.location.OpenStreetMapApi;
 import de.simonscholz.bot.telegram.repositories.DmiLocationRepository;
-import de.simonscholz.bot.telegram.translate.Translation;
-import de.simonscholz.bot.telegram.translate.TranslationApi;
 import de.simonscholz.bot.telegram.weather.DmiApi;
 import de.simonscholz.bot.telegram.weather.DmiCity;
 import io.reactivex.Maybe;
@@ -31,9 +29,6 @@ public class UpdateHandlerImpl implements UpdateHandler {
 
 	@Autowired
 	private DmiApi dmiApi;
-
-	@Autowired
-	private TranslationApi translationApi;
 
 	@Autowired
 	private TelegramBotClient telegramBot;
@@ -79,22 +74,6 @@ public class UpdateHandlerImpl implements UpdateHandler {
 						Single<List<DmiCity>> dmiCities = dmiApi.getDmiCities(queryString.trim());
 						sendDmiPhoto(chatId, dmiCities, DmiApi.MODE_WEEK);
 					}
-				} else if (text.startsWith("/de")) {
-					Single<Translation> translation = translationApi.getTranslation(queryString, "de", "en");
-					translation.subscribe(t -> {
-						Maybe<Message> sendMessage = telegramBot.sendMessage(chatId, t.getTranslationText());
-						sendMessage.subscribe(m -> {
-							LOG.debug(m.getText());
-						});
-					});
-				} else if (text.startsWith("/en")) {
-					Single<Translation> translation = translationApi.getTranslation(queryString, "en", "de");
-					translation.subscribe(t -> {
-						Maybe<Message> sendMessage = telegramBot.sendMessage(chatId, t.getTranslationText());
-						sendMessage.subscribe(m -> {
-							LOG.debug(m.getText());
-						});
-					});
 				}
 
 			} else {
