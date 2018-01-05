@@ -6,12 +6,9 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Message {
-	private int message_id;
-	private User from;
-	private int date;
-	private Chat chat;
-	private String text;
+public class Venue {
 	private Location location;
-	private Venue venue;
+	private String title;
+	private String address;
+	private String foursquare_id;
 }
