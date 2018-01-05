@@ -78,7 +78,14 @@ A nice way to set the webhook is by using _curl_:
 
 [source, console]
 ----
-curl https://api.telegram.org/bot{your api token}/setWebhook -F "url=https://{your-domain}/webhook"
+curl -F "url=https://{your-domain}/webhook" https://api.telegram.org/bot{your api token}/setWebhook
+----
+
+For a custom ssl certificate(telegram required pem) the following command can be used:
+
+[source, console]
+----
+curl -F "url=https://{your-domain}/webhook" -F "certificate=@/home/simon/ssl/keystore.pem" https://api.telegram.org/bot{your api token}/setWebhook
 ----
 
 TIP: See https://core.telegram.org/bots/api#setwebhook for further information about setting a webhook.
