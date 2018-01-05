@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import de.simonscholz.bot.telegram.api.Chat;
 import de.simonscholz.bot.telegram.api.Location;
 import de.simonscholz.bot.telegram.api.Message;
 import de.simonscholz.bot.telegram.api.Update;
@@ -62,7 +63,7 @@ public class UpdateHandlerImpl implements UpdateHandler {
 
 				if (text.startsWith("/now")) {
 					Optional<DmiLocation> findByState = locationRepository.findByLabelContaining(queryString.trim());
-					if(findByState.isPresent()) {
+					if (findByState.isPresent()) {
 						DmiLocation dmiLocation = findByState.get();
 						sendDmiPhoto(chatId, DmiApi.MODE_NOW, dmiLocation.getDmiId());
 					} else {
@@ -71,7 +72,7 @@ public class UpdateHandlerImpl implements UpdateHandler {
 					}
 				} else if (text.startsWith("/week")) {
 					Optional<DmiLocation> findByState = locationRepository.findByLabelContaining(queryString.trim());
-					if(findByState.isPresent()) {
+					if (findByState.isPresent()) {
 						DmiLocation dmiLocation = findByState.get();
 						sendDmiPhoto(chatId, DmiApi.MODE_WEEK, dmiLocation.getDmiId());
 					} else {
@@ -97,18 +98,21 @@ public class UpdateHandlerImpl implements UpdateHandler {
 				}
 
 			} else {
-				Maybe<Message> sendMessage = telegramBot.sendMessage(chatId,
-						"This is not a proper command. \n Please use /now or /week + city name or for translations /en or /de");
-				sendMessage.subscribe(m -> {
-					LOG.debug(m.getText());
-				});
+				Chat chat = update.getMessage().getChat();
+				if (Chat.TYPE_PRIVATE.equals(chat.getType())) {
+					Maybe<Message> sendMessage = telegramBot.sendMessage(chatId,
+							"This is not a proper command. \n Please use /now or /week + city name or for translations /en or /de");
+					sendMessage.subscribe(m -> {
+						LOG.debug(m.getText());
+					});
+				}
 			}
 		} else if (location != null) {
 			Single<OSMLocation> locationData = locationApi.getLocationData(location.getLatitude(),
 					location.getLongitude());
 			locationData.subscribe(l -> {
 				Optional<DmiLocation> findByState = locationRepository.findByLabelContaining(l.getAddress().getState());
-				if(findByState.isPresent()) {
+				if (findByState.isPresent()) {
 					DmiLocation dmiLocation = findByState.get();
 					sendDmiPhoto(chatId, DmiApi.MODE_NOW, dmiLocation.getDmiId());
 				} else {
