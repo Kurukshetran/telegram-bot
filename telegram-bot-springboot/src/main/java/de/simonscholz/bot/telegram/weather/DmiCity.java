@@ -1,4 +1,5 @@
 package de.simonscholz.bot.telegram.weather;
+
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,13 +9,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class DmiCity {
 	private int id;
 
-	private double longitude;
-
 	private String label;
+
+	private double longitude;
 
 	private double latitude;
 
-	private String country_code;
-
 	private String country;
+
+	private String country_code;
 }

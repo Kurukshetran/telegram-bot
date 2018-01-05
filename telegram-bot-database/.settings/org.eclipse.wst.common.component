@@ -7,8 +7,5 @@
 		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/telegram-bot-api/telegram-bot-api">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
-		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/telegram-bot-database/telegram-bot-database">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
 	</wb-module>
 </project-modules>

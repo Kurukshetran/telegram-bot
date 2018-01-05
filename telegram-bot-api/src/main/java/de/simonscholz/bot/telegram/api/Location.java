@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Location {
-	private float longitude;
-	private float latitude;
+	private double longitude;
+	private double latitude;
 }

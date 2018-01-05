@@ -1,7 +1,6 @@
 buildscript {
 	ext {
 		springBootVersion = '1.5.9.RELEASE'
-		gradleDockerVersion = "1.2"
 	}
 	repositories {
 		jcenter()
@@ -11,19 +10,10 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("se.transmode.gradle:gradle-docker:${gradleDockerVersion}")
 	}
 }
 
 apply plugin: 'org.springframework.boot'
-apply plugin: 'war'
-apply plugin: 'application'
-apply plugin: 'docker'
-
-jar {
-	baseName = 'telegram-bot'
-	version = '0.1.0'
-}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -33,16 +23,6 @@ dependencies {
 	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 	runtime('com.h2database:h2')
 	compileOnly('org.projectlombok:lombok')
-	compile('io.reactivex.rxjava2:rxjava:2.1.8')
-	compile('com.squareup.retrofit2:retrofit:2.3.0')
-	compile('com.squareup.retrofit2:adapter-rxjava2:+')
-	compile('com.squareup.retrofit2:converter-jackson:+')
 	
 	compile project(':telegram-bot-api')
-	compile project(':telegram-bot-database')
-}
-
-docker {
-    baseImage "frolvlad/alpine-oraclejdk8:slim"
-    maintainer 'Simon Scholz "simon.scholz@vogella.com"'
 }
