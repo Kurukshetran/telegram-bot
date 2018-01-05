@@ -3,6 +3,7 @@ package de.simonscholz.bot.telegram;
 import org.springframework.context.annotation.Bean;
 
 import de.simonscholz.bot.telegram.bot.TelegramBotClient;
+import de.simonscholz.bot.telegram.location.OpenStreetMapApi;
 import de.simonscholz.bot.telegram.translate.TranslationApi;
 import de.simonscholz.bot.telegram.weather.DmiApi;
 import retrofit2.Retrofit;
@@ -27,6 +28,11 @@ public class Configuration {
 	@Bean
 	public TranslationApi translationApi(Builder builder) {
 		return builder.baseUrl(TranslationApi.BASE_URL).build().create(TranslationApi.class);
+	}
+
+	@Bean
+	public OpenStreetMapApi locationApi(Builder builder) {
+		return builder.baseUrl(OpenStreetMapApi.BASE_URL).build().create(OpenStreetMapApi.class);
 	}
 
 	@Bean
