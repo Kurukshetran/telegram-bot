@@ -1,4 +1,4 @@
-package de.simonscholz.bot.telegram.api;
+package de.simonscholz.bot.telegram.api.model;
 
 import java.util.List;
 

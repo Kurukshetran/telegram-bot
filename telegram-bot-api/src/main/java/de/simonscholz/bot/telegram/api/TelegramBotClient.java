@@ -1,8 +1,8 @@
-package de.simonscholz.bot.telegram.bot;
+package de.simonscholz.bot.telegram.api;
 
-import de.simonscholz.bot.telegram.api.Message;
-import de.simonscholz.bot.telegram.api.TelegramResponse;
-import de.simonscholz.bot.telegram.api.Update;
+import de.simonscholz.bot.telegram.api.model.Message;
+import de.simonscholz.bot.telegram.api.model.TelegramResponse;
+import de.simonscholz.bot.telegram.api.model.Update;
 import io.reactivex.Maybe;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

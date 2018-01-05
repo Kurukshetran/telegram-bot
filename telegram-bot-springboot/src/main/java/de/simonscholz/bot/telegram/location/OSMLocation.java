@@ -1,7 +1,7 @@
 package de.simonscholz.bot.telegram.location;
-import lombok.Data;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

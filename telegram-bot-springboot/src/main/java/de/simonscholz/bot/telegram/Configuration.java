@@ -2,7 +2,7 @@ package de.simonscholz.bot.telegram;
 
 import org.springframework.context.annotation.Bean;
 
-import de.simonscholz.bot.telegram.bot.TelegramBotClient;
+import de.simonscholz.bot.telegram.api.TelegramBotClient;
 import de.simonscholz.bot.telegram.location.OpenStreetMapApi;
 import de.simonscholz.bot.telegram.weather.DmiApi;
 import retrofit2.Retrofit;

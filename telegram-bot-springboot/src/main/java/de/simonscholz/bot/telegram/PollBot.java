@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import de.simonscholz.bot.telegram.api.TelegramResponse;
-import de.simonscholz.bot.telegram.api.Update;
-import de.simonscholz.bot.telegram.bot.TelegramBotClient;
+import de.simonscholz.bot.telegram.api.TelegramBotClient;
+import de.simonscholz.bot.telegram.api.model.TelegramResponse;
+import de.simonscholz.bot.telegram.api.model.Update;
 import de.simonscholz.bot.telegram.handler.UpdateHandler;
 import io.reactivex.Maybe;
 

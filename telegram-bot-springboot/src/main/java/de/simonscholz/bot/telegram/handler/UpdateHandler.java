@@ -1,6 +1,6 @@
 package de.simonscholz.bot.telegram.handler;
 
-import de.simonscholz.bot.telegram.api.Update;
+import de.simonscholz.bot.telegram.api.model.Update;
 
 public interface UpdateHandler {
 

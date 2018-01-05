@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import de.simonscholz.bot.telegram.api.Chat;
-import de.simonscholz.bot.telegram.api.Location;
-import de.simonscholz.bot.telegram.api.Message;
-import de.simonscholz.bot.telegram.api.Update;
-import de.simonscholz.bot.telegram.bot.TelegramBotClient;
+import de.simonscholz.bot.telegram.api.TelegramBotClient;
+import de.simonscholz.bot.telegram.api.model.Chat;
+import de.simonscholz.bot.telegram.api.model.Location;
+import de.simonscholz.bot.telegram.api.model.Message;
+import de.simonscholz.bot.telegram.api.model.Update;
 import de.simonscholz.bot.telegram.entities.DmiLocation;
 import de.simonscholz.bot.telegram.location.OSMLocation;
 import de.simonscholz.bot.telegram.location.OpenStreetMapApi;

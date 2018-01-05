@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.simonscholz.bot.telegram.api.TelegramResponse;
-import de.simonscholz.bot.telegram.api.Update;
-import de.simonscholz.bot.telegram.bot.TelegramBotClient;
+import de.simonscholz.bot.telegram.api.TelegramBotClient;
+import de.simonscholz.bot.telegram.api.model.TelegramResponse;
+import de.simonscholz.bot.telegram.api.model.Update;
 import de.simonscholz.bot.telegram.handler.UpdateHandler;
 import io.reactivex.Maybe;
 
