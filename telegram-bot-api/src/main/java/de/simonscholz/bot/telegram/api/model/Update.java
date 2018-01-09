@@ -9,4 +9,7 @@ import lombok.Data;
 public class Update {
 	private int update_id;
 	private Message message;
+	private Message edited_message;
+	private Message channel_post;
+	private Message edited_channel_post;
 }

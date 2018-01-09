@@ -41,67 +41,87 @@ public class UpdateHandlerImpl implements UpdateHandler {
 
 	@Override
 	public void handleUpdate(Update update) {
-		Message message = update.getMessage();
+		Optional<Message> messageOptional = getMessage(update);
 
-		long chatId = message.getChat().getId();
-		String text = message.getText();
-		Location location = message.getLocation();
+		messageOptional.ifPresent(message -> {
 
-		if (text != null) {
-			LOG.debug("Chat id:" + chatId);
-			LOG.debug("Text : " + text);
+			long chatId = message.getChat().getId();
+			String text = message.getText();
+			Location location = message.getLocation();
 
-			int indexOf = text.indexOf(" ");
+			if (text != null) {
+				LOG.debug("Chat id:" + chatId);
+				LOG.debug("Text : " + text);
 
-			if (indexOf > -1) {
-				String queryString = text.substring(indexOf);
+				int indexOf = text.indexOf(" ");
 
-				if (text.startsWith("/now")) {
-					Optional<DmiLocation> findByState = locationRepository.findByLabelContaining(queryString.trim());
+				if (indexOf > -1) {
+					String queryString = text.substring(indexOf);
+
+					if (text.startsWith("/now")) {
+						Optional<DmiLocation> findByState = locationRepository
+								.findByLabelContaining(queryString.trim());
+						if (findByState.isPresent()) {
+							DmiLocation dmiLocation = findByState.get();
+							sendDmiPhoto(chatId, DmiApi.MODE_NOW, dmiLocation.getDmiId());
+						} else {
+							Single<List<DmiCity>> dmiCities = dmiApi.getDmiCities(queryString.trim());
+							sendDmiPhoto(chatId, dmiCities, DmiApi.MODE_NOW);
+						}
+					} else if (text.startsWith("/week")) {
+						Optional<DmiLocation> findByState = locationRepository
+								.findByLabelContaining(queryString.trim());
+						if (findByState.isPresent()) {
+							DmiLocation dmiLocation = findByState.get();
+							sendDmiPhoto(chatId, DmiApi.MODE_WEEK, dmiLocation.getDmiId());
+						} else {
+							Single<List<DmiCity>> dmiCities = dmiApi.getDmiCities(queryString.trim());
+							sendDmiPhoto(chatId, dmiCities, DmiApi.MODE_WEEK);
+						}
+					}
+				} else if (text.startsWith("/chatid")) {
+					long id = message.getChat().getId();
+					telegramBot.sendMessage(id, "Your chat id is: " + id).subscribe();
+				} else {
+					Chat chat = message.getChat();
+					if (Chat.TYPE_PRIVATE.equals(chat.getType())) {
+						Maybe<Message> sendMessage = telegramBot.sendMessage(chatId,
+								"This is not a proper command. \n Please use /now or /week + city name");
+						sendMessage.subscribe(m -> {
+							LOG.debug(m.getText());
+						});
+					}
+				}
+			} else if (location != null) {
+				Single<OSMLocation> locationData = locationApi.getLocationData(location.getLatitude(),
+						location.getLongitude());
+				locationData.subscribe(l -> {
+					Optional<DmiLocation> findByState = locationRepository
+							.findByLabelContaining(l.getAddress().getState());
 					if (findByState.isPresent()) {
 						DmiLocation dmiLocation = findByState.get();
 						sendDmiPhoto(chatId, DmiApi.MODE_NOW, dmiLocation.getDmiId());
 					} else {
-						Single<List<DmiCity>> dmiCities = dmiApi.getDmiCities(queryString.trim());
+						Single<List<DmiCity>> dmiCities = dmiApi.getDmiCities(l.getAddress().getState());
 						sendDmiPhoto(chatId, dmiCities, DmiApi.MODE_NOW);
 					}
-				} else if (text.startsWith("/week")) {
-					Optional<DmiLocation> findByState = locationRepository.findByLabelContaining(queryString.trim());
-					if (findByState.isPresent()) {
-						DmiLocation dmiLocation = findByState.get();
-						sendDmiPhoto(chatId, DmiApi.MODE_WEEK, dmiLocation.getDmiId());
-					} else {
-						Single<List<DmiCity>> dmiCities = dmiApi.getDmiCities(queryString.trim());
-						sendDmiPhoto(chatId, dmiCities, DmiApi.MODE_WEEK);
-					}
-				}
-			} else if (text.startsWith("/chatid")) {
-				long id = message.getChat().getId();
-				telegramBot.sendMessage(id, "Your chat id is: " + id).subscribe();
-			} else {
-				Chat chat = update.getMessage().getChat();
-				if (Chat.TYPE_PRIVATE.equals(chat.getType())) {
-					Maybe<Message> sendMessage = telegramBot.sendMessage(chatId,
-							"This is not a proper command. \n Please use /now or /week + city name");
-					sendMessage.subscribe(m -> {
-						LOG.debug(m.getText());
-					});
-				}
+				});
 			}
-		} else if (location != null) {
-			Single<OSMLocation> locationData = locationApi.getLocationData(location.getLatitude(),
-					location.getLongitude());
-			locationData.subscribe(l -> {
-				Optional<DmiLocation> findByState = locationRepository.findByLabelContaining(l.getAddress().getState());
-				if (findByState.isPresent()) {
-					DmiLocation dmiLocation = findByState.get();
-					sendDmiPhoto(chatId, DmiApi.MODE_NOW, dmiLocation.getDmiId());
-				} else {
-					Single<List<DmiCity>> dmiCities = dmiApi.getDmiCities(l.getAddress().getState());
-					sendDmiPhoto(chatId, dmiCities, DmiApi.MODE_NOW);
-				}
-			});
+		});
+	}
+
+	private Optional<Message> getMessage(Update update) {
+		if (update.getMessage() != null) {
+			return Optional.of(update.getMessage());
+		} else if (update.getEdited_message() != null) {
+			return Optional.of(update.getEdited_message());
+		} else if (update.getChannel_post() != null) {
+			return Optional.of(update.getChannel_post());
+		} else if (update.getEdited_channel_post() != null) {
+			return Optional.of(update.getEdited_channel_post());
 		}
+
+		return Optional.empty();
 	}
 
 	private void sendDmiPhoto(long chatId, Single<List<DmiCity>> dmiCities, String mode) {
