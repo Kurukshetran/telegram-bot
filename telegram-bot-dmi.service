@@ -1,0 +1,14 @@
+[Unit]
+Description=Telegram Bot for dmi wheather forecasts
+After=network.target
+
+[Service]
+User=spring
+Group=spring
+Type=simple
+ExecStart=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -jar /user/server/telegram-bot-0.1.0.jar
+RestartSec=10
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
