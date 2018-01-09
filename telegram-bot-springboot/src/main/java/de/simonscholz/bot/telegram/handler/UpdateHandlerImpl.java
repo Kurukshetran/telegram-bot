@@ -43,7 +43,7 @@ public class UpdateHandlerImpl implements UpdateHandler {
 	public void handleUpdate(Update update) {
 		Message message = update.getMessage();
 
-		int chatId = message.getChat().getId();
+		long chatId = message.getChat().getId();
 		String text = message.getText();
 		Location location = message.getLocation();
 
@@ -76,7 +76,7 @@ public class UpdateHandlerImpl implements UpdateHandler {
 					}
 				}
 			} else if (text.startsWith("/chatid")) {
-				int id = message.getChat().getId();
+				long id = message.getChat().getId();
 				telegramBot.sendMessage(id, "Your chat id is: " + id).subscribe();
 			} else {
 				Chat chat = update.getMessage().getChat();
@@ -104,14 +104,14 @@ public class UpdateHandlerImpl implements UpdateHandler {
 		}
 	}
 
-	private void sendDmiPhoto(int chatId, Single<List<DmiCity>> dmiCities, String mode) {
+	private void sendDmiPhoto(long chatId, Single<List<DmiCity>> dmiCities, String mode) {
 		dmiCities.subscribe(cities -> cities.stream().findFirst().ifPresent(dmiCity -> {
 			saveDmiCity(dmiCity);
 			sendDmiPhoto(chatId, mode, dmiCity.getId());
 		}));
 	}
 
-	private void sendDmiPhoto(int chatId, String mode, int dmiCityId) {
+	private void sendDmiPhoto(long chatId, String mode, int dmiCityId) {
 		String weatherImageUrl = dmiApi.getWeatherImageUrl(String.valueOf(dmiCityId), mode);
 		Maybe<Message> sendPhoto = telegramBot.sendPhoto(chatId, weatherImageUrl);
 		sendPhoto.subscribe(m -> {

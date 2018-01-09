@@ -20,7 +20,7 @@ import io.reactivex.Maybe;
 
 @RestController
 public class BotController {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(BotController.class);
 
 	@Autowired
@@ -35,7 +35,7 @@ public class BotController {
 	}
 
 	@GetMapping(value = "/poll")
-	public String poll(@RequestParam(name="count", required=false, defaultValue="1") int count) {
+	public String poll(@RequestParam(name = "count", required = false, defaultValue = "1") int count) {
 		Maybe<TelegramResponse<Update>> updatesMaybe = botClient.getUpdates();
 		updatesMaybe.subscribe(res -> {
 			List<Update> updates = res.getResult();
@@ -45,13 +45,14 @@ public class BotController {
 		});
 		return "Polling updates";
 	}
-	
+
 	@GetMapping(value = "/printUpdates")
 	public void getUpdates() {
 		Maybe<TelegramResponse<Update>> updatesMaybe = botClient.getUpdates();
 		updatesMaybe.subscribe(res -> {
 			List<Update> updates = res.getResult();
-			String collect = updates.stream().map(update -> update.getMessage().getText()).collect(Collectors.joining(","));
+			String collect = updates.stream().map(update -> update.getMessage().getText())
+					.collect(Collectors.joining(","));
 			LOG.info(collect);
 		}, err -> {
 			LOG.error(err.getMessage(), err);

@@ -13,7 +13,7 @@ public class Chat {
 	public static final String TYPE_SUPERGROUP = "supergroup";
 	public static final String TYPE_CHANNEL = "channel";
 	
-	private int id;
+	private long id;
 	private String type;
 	private String title;
 	private String username;

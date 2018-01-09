@@ -14,11 +14,11 @@ public interface TelegramBotClient {
 	
 	@POST("sendMessage")
 	@FormUrlEncoded
-	Maybe<Message> sendMessage(@Field("chat_id") int chatId, @Field("text") String text);
+	Maybe<Message> sendMessage(@Field("chat_id") long chatId, @Field("text") String text);
 
 	@POST("sendPhoto")
 	@FormUrlEncoded
-	Maybe<Message> sendPhoto(@Field("chat_id") int chatId, @Field("photo") String photoUrl);
+	Maybe<Message> sendPhoto(@Field("chat_id") long chatId, @Field("photo") String photoUrl);
 
 	@GET("getUpdates")
 	Maybe<TelegramResponse<Update>> getUpdates();
