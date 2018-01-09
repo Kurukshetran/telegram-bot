@@ -74,13 +74,15 @@ public class UpdateHandlerImpl implements UpdateHandler {
 						Single<List<DmiCity>> dmiCities = dmiApi.getDmiCities(queryString.trim());
 						sendDmiPhoto(chatId, dmiCities, DmiApi.MODE_WEEK);
 					}
+				} else if (text.startsWith("/chatid")) {
+					int id = message.getChat().getId();
+					telegramBot.sendMessage(id, "Your chat id is: " + id);
 				}
-
 			} else {
 				Chat chat = update.getMessage().getChat();
 				if (Chat.TYPE_PRIVATE.equals(chat.getType())) {
 					Maybe<Message> sendMessage = telegramBot.sendMessage(chatId,
-							"This is not a proper command. \n Please use /now or /week + city name or for translations /en or /de");
+							"This is not a proper command. \n Please use /now or /week + city name");
 					sendMessage.subscribe(m -> {
 						LOG.debug(m.getText());
 					});
