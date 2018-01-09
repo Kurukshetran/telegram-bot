@@ -1,0 +1,35 @@
+= Let's Encrypt
+
+Add ssl certificate to your domain.
+
+== For Fritz!Box AVM Router
+
+AVM is currently working on a setting for Let's Encrypt and their routers.
+
+See https://avm.de/fritz-labor/fritz-labor-fuer-fritzbox-7490-und-7590/lets-encrypt/
+
+== Using certbot
+
+[source, console]
+----
+cd {your home directory}
+
+mkdir certbot
+
+cd certbot
+
+wget https://dl.eff.org/certbot-auto
+
+chmod +x certbot-auto
+
+./certbot-auto certonly -a standalone -d {your domain name -> example.ddns.net}
+
+cd /etc/letsencrypt/live/{your domain name -> example.ddns.net}/
+
+openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out keystore.p12 -name tomcat -CAfile chain.pem -caname root
+
+----
+
+The _keystore.p12_ has to be moved to a location, which can be accessed by the user, which starts the spring boot app service. The `chown -R {username} and chgrp -R {username} command are helpful here.
+
+See _server.ssl.key-store_ property in _application.properties_ file.
