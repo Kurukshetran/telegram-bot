@@ -30,6 +30,7 @@ openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out keystore.p12 -n
 
 ----
 
-The _keystore.p12_ has to be moved to a location, which can be accessed by the user, which starts the spring boot app service. The `chown -R {username} and chgrp -R {username} command are helpful here.
+The _keystore.p12_ file has to be moved to a location, which can be accessed by the user, which starts the spring boot app service. The `chown -R {username} and chgrp -R {username}` command are helpful here.
 
-See _server.ssl.key-store_ property in _application.properties_ file.
+The conversion to a _keystore.p12_ file with _openssl_ is necessary, because sprint boot does not work with _*.pem_ files, but with _*.p12_ files.
+See _server.ssl.key-store_ property in _application.properties_ file of the spring boot application.
