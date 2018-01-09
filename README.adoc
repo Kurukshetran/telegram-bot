@@ -29,7 +29,25 @@ To run this Spring Boot application with your own bot you usually have to adjust
 
 [source, properties]
 ----
-include::https://github.com/SimonScholz/telegram-bot/blob/master/telegram-bot-springboot/src/main/resources/application.properties[]
+bot.api-key=*** the api key for your bot ***
+bot.api-url=https://api.telegram.org/bot
+management.context-path=/manage
+
+# If you want to use long polling add "poll" to the active profiles
+spring.profiles.active=webhook
+
+# Telegram supports the following ports: 443, 80, 88, 8443
+server.port: 8443
+
+security.require-ssl=true
+
+server.ssl.key-store:/home/spring/ssl/keystore.p12
+
+server.ssl.key-store-password: *** your password ***
+
+server.ssl.keyStoreType: PKCS12
+
+server.ssl.keyAlias: tomcat
 ----
 
 The _bot.api-key_ property has to be changed to your own bot token and you might want to change the _server.port_ property as well, e.g., to port 8443.
@@ -72,10 +90,10 @@ By default the `PollBot` is disabled. To enable it the _poll_ profile has to be 
 ====
 Long polling should only be used in case it is not possible to provide an ssl _/webhook_ endpoint.
 
-See [[webhookusage]] 
+See <<webhookusage>>
 ====
 
-<<webhookusage>>
+[[webhookusage]]
 === Using a Webhook
 
 Usually you'd want to use a webhook, if you're providing a rest endpoint like this app does.
