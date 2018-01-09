@@ -9,7 +9,7 @@ public class BotProperties {
 
 	private String apiKey = "apikey";
 	private String apiUrl = "apiurl";
-	private String webHookUrl = "webhookurl";
+	private int adminChatId = 0;
 
 	public String getApiKey() {
 		return apiKey;
@@ -27,11 +27,11 @@ public class BotProperties {
 		this.apiUrl = apiUrl;
 	}
 
-	public String getWebHookUrl() {
-		return webHookUrl;
+	public int getAdminChatId() {
+		return adminChatId;
 	}
 
-	public void setWebHookUrl(String webHookUrl) {
-		this.webHookUrl = webHookUrl;
+	public void setAdminChatId(int adminChatId) {
+		this.adminChatId = adminChatId;
 	}
 }
