@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import de.simonscholz.bot.telegram.handler.UpdateHandler;
 import io.reactivex.Maybe;
 
 @Component
+@Profile("poll")
 public class PollBot {
 	private static final Logger log = LoggerFactory.getLogger(PollBot.class);
 
