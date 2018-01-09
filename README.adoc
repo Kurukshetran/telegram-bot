@@ -29,13 +29,10 @@ To run this Spring Boot application with your own bot you usually have to adjust
 
 [source, properties]
 ----
-bot.api-url=https://api.telegram.org/bot
-bot.api-key=***** your api key *****
-server.port=8080
-management.context-path=/manage
+include::./telegram-bot-springboot/src/main/resources/application.properties[]
 ----
 
-The _bot.api-key_ property has to be changed to your own bot token and you might want to change the _server.port_ property as well, e.g., to port 80.
+The _bot.api-key_ property has to be changed to your own bot token and you might want to change the _server.port_ property as well, e.g., to port 8443.
 
 By sending the `/token` command to the @BotFather and selecting your bot, you'll get the token, which has to be placed in the _application.properties_ as _bot.api-key_ property value.
 
@@ -54,25 +51,45 @@ telegram-bot > gradlew.bat bootRun
 
 === Use the Application
 
-Once the application is running either from the IDE or with Gradle you can test it by navigating to http://localhost:8080/poll, which is used to poll your messages/commands.
+Once the application is running either from the IDE or with Gradle you can test it by navigating to http://localhost:8433/poll, which is used to poll your messages/commands.
 
-Currently 4 commands are supported:
+Currently 3 commands are supported:
 
 * /now {City name} - Get the current day overview image from dmi.dk
 * /week {City name} - Get the week overview image from dmi.dk
+* Simple send your location to the bot (in groups this only works in private mode for bots)
 
-* /en {german text} - translates german to english
-* /de {english text} - translates english to german
+When you send one of these commands to your bot and then open http://localhost:8433/poll the Spring Boot application will try to poll your commands and send appropriate answers to the chat with your bot.
 
-When you send one of these commands to your bot and then open http://localhost:8080/poll the Spring Boot application will try to poll your commands and send appropriate answers to the chat with your bot.
+By invoking http://localhost:8433/printUpdates it will print the new texts, which are send to the bot.
 
+=== Using long polling
+
+The `de.simonscholz.bot.telegram.PollBot` class registers a long polling process, which is invoked every 10 seconds.
+By default the `PollBot` is disabled. To enable it the _poll_ profile has to be activated, e.g., by adding _"poll"_ to the _spring.profiles.active_ property in the _application.properties_ file.
+
+[NOTE]
+====
+Long polling should only be used in case it is not possible to provide an ssl _/webhook_ endpoint.
+
+See [[webhookusage]] 
+====
+
+<<webhookusage>>
 === Using a Webhook
 
 Usually you'd want to use a webhook, if you're providing a rest endpoint like this app does.
 
-The webhook should point the /webhook endpoint, e.g., http://localhost:8080/webhook.
+The webhook should point the /webhook endpoint, e.g., http://localhost:8443/webhook.
 
-NOTE: You'll have to substitute `http://localhost:8080/webhook` with `{your.server.domain}/webhook`, since the telegram bot won't be able to reach the localhost of your machine.
+NOTE: You'll have to substitute `http://localhost:8443/webhook` with `{your.server.domain or your.ip}/webhook`, since the telegram bot won't be able to reach the localhost of your machine.
+
+[NOTE]
+====
+Telegram requires a ssl secured endpoint.
+
+This is a nice introduction how to achieve that: https://dzone.com/articles/spring-boot-secured-by-lets-encrypt
+====
 
 A nice way to set the webhook is by using _curl_:
 
@@ -110,5 +127,4 @@ Feedback is highly appreciated. You may open issues, send pull requests or simpl
 == Sources
 
 https://core.telegram.org/bots/api
-
 
