@@ -1,21 +1,13 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.9.RELEASE'
-	}
-	repositories {
-		jcenter()
-		maven {
-        	url "https://plugins.gradle.org/m2/"
-		}
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    repositories { mavenCentral() }
 }
 
-apply plugin: 'org.springframework.boot'
+plugins { id "io.spring.dependency-management" version "1.0.4.RELEASE" }
 
-bootRepackage.enabled = false
+jar {
+    baseName = 'telegram-bot-database'
+	version = '0.1.0'
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -27,4 +19,8 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	
 	compile project(':telegram-bot-api')
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
 }
