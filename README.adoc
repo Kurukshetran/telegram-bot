@@ -29,7 +29,7 @@ To run this Spring Boot application with your own bot you usually have to adjust
 
 [source, properties]
 ----
-include::./telegram-bot-springboot/src/main/resources/application.properties[]
+include::https://github.com/SimonScholz/telegram-bot/blob/master/telegram-bot-springboot/src/main/resources/application.properties[]
 ----
 
 The _bot.api-key_ property has to be changed to your own bot token and you might want to change the _server.port_ property as well, e.g., to port 8443.
@@ -57,7 +57,7 @@ Currently 3 commands are supported:
 
 * /now {City name} - Get the current day overview image from dmi.dk
 * /week {City name} - Get the week overview image from dmi.dk
-* Simple send your location to the bot (in groups this only works in private mode for bots)
+* Simply send your location to the bot (in groups this only works in https://core.telegram.org/bots#privacy-mode[private mode] for bots)
 
 When you send one of these commands to your bot and then open http://localhost:8433/poll the Spring Boot application will try to poll your commands and send appropriate answers to the chat with your bot.
 
