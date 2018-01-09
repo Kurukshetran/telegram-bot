@@ -24,6 +24,7 @@ public interface DmiApi {
 	Single<ResponseBody> getWeatherImage(@Query("city") String cityId, @Query("mode") String mode);
 	
 	default String getWeatherImageUrl(String cityId, String mode) {
-		return "http://servlet.dmi.dk/byvejr/servlet/world_image?city=" + cityId + "&mode=" + mode;
+		// added System.currentTimeMillis() at the end of the image url, because telegram caches image urls
+		return "http://servlet.dmi.dk/byvejr/servlet/world_image?city=" + cityId + "&mode=" + mode + "#" + System.currentTimeMillis();
 	}
 }
